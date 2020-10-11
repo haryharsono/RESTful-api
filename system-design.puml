@@ -1,0 +1,17 @@
+@startuml
+
+actor "user" as user
+node "belajar Restfull-api"{
+    component "controller" as controller
+    component "service" as service
+    component "repository" as repository
+
+
+}
+database "postgresql" as database
+
+user <--> controller
+controller <-->service
+service<--> repository
+repository <--> database
+@enduml
