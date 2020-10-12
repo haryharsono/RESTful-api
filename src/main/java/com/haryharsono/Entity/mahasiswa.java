@@ -2,6 +2,7 @@ package com.haryharsono.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
@@ -12,11 +13,11 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 public class mahasiswa {
 
     @Id
     private String id;
-
     private String stambuk;
     private String name;
     private int umur;
