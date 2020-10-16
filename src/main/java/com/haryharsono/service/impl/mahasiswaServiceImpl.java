@@ -2,6 +2,7 @@ package com.haryharsono.service.impl;
 
 import com.haryharsono.Entity.mahasiswa;
 import com.haryharsono.Repository.mahasiswaRepo;
+import com.haryharsono.error.NotFoundException;
 import com.haryharsono.model.createMahasiswaRequest;
 import com.haryharsono.model.mahasiswaResponse;
 import com.haryharsono.service.mahasiswaService;
@@ -17,6 +18,8 @@ public class mahasiswaServiceImpl implements mahasiswaService {
     mahasiswaRepo mahasiswaRepo;
     @Autowired
     validationUtil validationUtil;
+    @Autowired
+    mahasiswa mahasiswa;
 
     @Override
     public mahasiswaResponse create(createMahasiswaRequest createMahasiswaRequest) {
@@ -35,7 +38,19 @@ public class mahasiswaServiceImpl implements mahasiswaService {
         );
 
         mahasiswaRepo.save(mahasiswa);
+        return convertMahasiswaToMahasiswaResponse(mahasiswa);
 
+    }
+
+    @Override
+    public mahasiswaResponse get(String id) throws NotFoundException {
+        if(mahasiswaRepo.findById(id) ==null){
+            throw new NotFoundException();
+        }else{
+            return convertMahasiswaToMahasiswaResponse(mahasiswa);
+        }
+    }
+    private mahasiswaResponse convertMahasiswaToMahasiswaResponse(mahasiswa mahasiswa){
         return new mahasiswaResponse(
                 mahasiswa.getId(),
                 mahasiswa.getStambuk(),
