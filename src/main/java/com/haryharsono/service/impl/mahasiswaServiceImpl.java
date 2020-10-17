@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Date;
+import java.util.Optional;
+
 @Service
 public class mahasiswaServiceImpl implements mahasiswaService {
 
@@ -18,8 +20,7 @@ public class mahasiswaServiceImpl implements mahasiswaService {
     mahasiswaRepo mahasiswaRepo;
     @Autowired
     validationUtil validationUtil;
-    @Autowired
-    mahasiswa mahasiswa;
+    
 
     @Override
     public mahasiswaResponse create(createMahasiswaRequest createMahasiswaRequest) {
@@ -43,11 +44,12 @@ public class mahasiswaServiceImpl implements mahasiswaService {
     }
 
     @Override
-    public mahasiswaResponse get(String id) throws NotFoundException {
-        if(mahasiswaRepo.findById(id) ==null){
+    public mahasiswaResponse get(String id) throws  NotFoundException{
+        Optional<mahasiswa> mahasiswa=mahasiswaRepo.findById(id);
+        if(!mahasiswa.isPresent()){
             throw new NotFoundException();
         }else{
-            return convertMahasiswaToMahasiswaResponse(mahasiswa);
+           return convertMahasiswaToMahasiswaResponse(mahasiswa.get());
         }
     }
     private mahasiswaResponse convertMahasiswaToMahasiswaResponse(mahasiswa mahasiswa){
