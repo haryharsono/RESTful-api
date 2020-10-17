@@ -1,20 +1,18 @@
 package com.haryharsono.Entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
-@AllArgsConstructor
 @Getter
 @Setter
 @NoArgsConstructor
 public class mahasiswa {
+
+
 
     @Id
     private String id;
@@ -25,6 +23,6 @@ public class mahasiswa {
     private String agama;
     private String jenisKelamin;
     private Date createdAt;
-    private Date updateAt;
 
+    private Date updateAt;
 }

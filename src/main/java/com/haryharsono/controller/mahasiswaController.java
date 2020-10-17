@@ -3,6 +3,7 @@ package com.haryharsono.controller;
 import com.haryharsono.error.NotFoundException;
 import com.haryharsono.model.createMahasiswaRequest;
 import com.haryharsono.model.mahasiswaResponse;
+import com.haryharsono.model.updateMahasiswaRequest;
 import com.haryharsono.model.webResponse;
 import com.haryharsono.service.mahasiswaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,16 @@ public class mahasiswaController {
                 "ok",
                 mahasiswaResponse);
     }
-
+    @PutMapping(
+            value = "/api/mahasiswa/{idMahasiswa}",
+            produces = "application/json",
+            consumes = "application/json")
+    private webResponse<mahasiswaResponse> updateMahasiswa(@PathVariable("idMahasiswa") String id,@RequestBody updateMahasiswaRequest updateMahasiswaRequest)
+            throws NotFoundException {
+        mahasiswaResponse mahasiswaResponse=mahasiswaService.update(id,updateMahasiswaRequest);
+        return new webResponse(
+                200,
+                "ok",
+                mahasiswaResponse);
+    }
 }
