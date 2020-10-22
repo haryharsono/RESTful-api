@@ -17,7 +17,7 @@ public class validationUtil {
 
     public void validate(Object object){
          Set<ConstraintViolation<Object>> result=validator.validate(object);
-         if(result.size() == 0){
+         if(result.size() != 0){
              throw new ConstraintViolationException(result);
          }
 

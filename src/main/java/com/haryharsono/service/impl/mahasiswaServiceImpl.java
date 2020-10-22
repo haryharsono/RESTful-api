@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class mahasiswaServiceImpl implements mahasiswaService {
     @Autowired
@@ -38,19 +39,13 @@ public class mahasiswaServiceImpl implements mahasiswaService {
     }
     @Override
     public mahasiswaResponse get(String id) throws  NotFoundException{
-        Optional<mahasiswa> mahasiswa=mahasiswaRepo.findById(id);
-        if(!mahasiswa.isPresent()){
-            throw new NotFoundException();
-        }else{
-           return convertMahasiswaToMahasiswaResponse(mahasiswa.get());
-        }
+           return convertMahasiswaToMahasiswaResponse(findMahasiswaByIdOrNotFoundException(id));
+
     }
     @Override
     public mahasiswaResponse update(String id, updateMahasiswaRequest updateMahasiswaRequest) throws NotFoundException {
-        mahasiswa mahasiswa=mahasiswaRepo.findById(id).get();
-        if(mahasiswa==null){
-            throw new NotFoundException();
-        }
+        mahasiswa mahasiswa=findMahasiswaByIdOrNotFoundException(id);
+
         validationUtil.validate(updateMahasiswaRequest);
 
         mahasiswa.setStambuk(updateMahasiswaRequest.getStambuk());
@@ -65,6 +60,25 @@ public class mahasiswaServiceImpl implements mahasiswaService {
         mahasiswaRepo.save(mahasiswa);
         return convertMahasiswaToMahasiswaResponse(mahasiswa);
     }
+
+    @Override
+    public void delete(String id) throws NotFoundException {
+        mahasiswa mahasiswa=findMahasiswaByIdOrNotFoundException(id);
+
+        mahasiswaRepo.delete(mahasiswa);
+
+
+    }
+    private mahasiswa findMahasiswaByIdOrNotFoundException(String id) throws NotFoundException {
+        Optional<mahasiswa> mahasiswa=mahasiswaRepo.findById(id);
+        if(!mahasiswa.isPresent()){
+            throw new NotFoundException();
+        }else{
+            return mahasiswa.get();
+        }
+
+    }
+
 
     private mahasiswaResponse convertMahasiswaToMahasiswaResponse(mahasiswa mahasiswa){
         return new mahasiswaResponse(

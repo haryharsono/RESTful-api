@@ -16,17 +16,13 @@ public class updateMahasiswaRequest {
     @Pattern(regexp = "|.{1,7}")
     private String stambuk;
     @NotBlank
-    @Min(1)
     private String name;
-    @Min(7)
-    private int umur;
     @Min(1)
+    private int umur;
     @NotBlank
     private String jurusan;
-    @Min(1)
     @NotBlank
     private String agama;
-    @Min(1)
     @NotBlank
     private String jenisKelamin;
     private Date updateAt;

@@ -48,4 +48,14 @@ public class mahasiswaController {
                 "ok",
                 mahasiswaResponse);
     }
+    @DeleteMapping(
+            value = "api/mahasiswa/{idMahasiswa}",
+            produces = "application/json")
+    private webResponse<String> deleteMahasiswa(@PathVariable("idMahasiswa") String id) throws NotFoundException {
+        mahasiswaService.delete(id);
+        return new webResponse(
+                200,
+                "ok",
+                id);
+    }
 }

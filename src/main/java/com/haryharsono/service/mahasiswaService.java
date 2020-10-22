@@ -16,5 +16,6 @@ public interface mahasiswaService {
 
      mahasiswaResponse update(String id, updateMahasiswaRequest updateMahasiswaRequest) throws NotFoundException;
 
+     void delete(String id) throws  NotFoundException;
 
 }

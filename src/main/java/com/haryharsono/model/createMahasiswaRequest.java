@@ -9,24 +9,20 @@ import javax.validation.constraints.*;
 @Setter
 public class createMahasiswaRequest {
 
-    @NotBlank
+    @NotNull
     private String id;
-    @NotBlank
-    @Pattern(regexp = "|.{1,7}")
+    @NotNull
+    @Size(min = 1, max = 7)
     private String stambuk;
-    @Min(1)
     @NotBlank
     private String name;
-    @Min(15)
+    @Min(1)
     @NotNull
     private int umur;
-    @Min(1)
     @NotBlank
     private String jurusan;
-    @Min(1)
     @NotBlank
     private String agama;
-    @Min(1)
     @NotBlank
     private String jenisKelamin;
 
