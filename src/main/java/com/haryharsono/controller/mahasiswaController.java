@@ -1,13 +1,12 @@
 package com.haryharsono.controller;
 
 import com.haryharsono.error.NotFoundException;
-import com.haryharsono.model.createMahasiswaRequest;
-import com.haryharsono.model.mahasiswaResponse;
-import com.haryharsono.model.updateMahasiswaRequest;
-import com.haryharsono.model.webResponse;
+import com.haryharsono.model.*;
 import com.haryharsono.service.mahasiswaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class mahasiswaController {
@@ -57,5 +56,30 @@ public class mahasiswaController {
                 200,
                 "ok",
                 id);
+    }
+    //Delete Berdasarkan umur
+    @DeleteMapping(
+            value = "api/mahasiswa/delete/{umurMahasiswa}",
+            produces = "application/json")
+    private webResponse<String> deleteUmur(@PathVariable("umurMahasiswa") int id) throws NotFoundException {
+        mahasiswaService.deleteAll(id);
+        return new webResponse(
+                200,
+                "ok",
+                id);
+    }
+
+    @GetMapping(
+            value = "/api/mahasiswa",
+            produces = "application/json")
+    private webResponse<mahasiswaResponse> listMahasiswa(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                         @RequestParam(value = "size", defaultValue = "10")int size){
+        listMahasiswaRequest request = new listMahasiswaRequest(page, size);
+        List<mahasiswaResponse> responses = mahasiswaService.list(request);
+        return new webResponse(
+                200,
+                "ok",
+                responses
+        );
     }
 }

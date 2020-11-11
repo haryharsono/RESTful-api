@@ -1,11 +1,12 @@
 package com.haryharsono.service;
 
 import com.haryharsono.error.NotFoundException;
+import com.haryharsono.model.listMahasiswaRequest;
 import com.haryharsono.model.createMahasiswaRequest;
 import com.haryharsono.model.mahasiswaResponse;
 import com.haryharsono.model.updateMahasiswaRequest;
-import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 public interface mahasiswaService {
@@ -18,4 +19,7 @@ public interface mahasiswaService {
 
      void delete(String id) throws  NotFoundException;
 
+     List<mahasiswaResponse> list(listMahasiswaRequest listMahasiswaRequest);
+
+     void deleteAll(int umur) throws NotFoundException;
 }

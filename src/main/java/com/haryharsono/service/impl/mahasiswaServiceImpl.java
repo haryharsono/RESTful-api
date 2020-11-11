@@ -4,15 +4,19 @@ import com.haryharsono.Entity.mahasiswa;
 import com.haryharsono.Repository.mahasiswaRepo;
 import com.haryharsono.error.NotFoundException;
 import com.haryharsono.model.createMahasiswaRequest;
+import com.haryharsono.model.listMahasiswaRequest;
 import com.haryharsono.model.mahasiswaResponse;
 import com.haryharsono.model.updateMahasiswaRequest;
 import com.haryharsono.service.mahasiswaService;
 import com.haryharsono.validation.validationUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import java.util.Date;
-import java.util.Optional;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -69,6 +73,21 @@ public class mahasiswaServiceImpl implements mahasiswaService {
 
 
     }
+
+    @Override
+    public List<mahasiswaResponse> list(listMahasiswaRequest listMahasiswaRequest) {
+        Page<mahasiswa> page=mahasiswaRepo.findAll(PageRequest.of(listMahasiswaRequest.getPage(),listMahasiswaRequest.getSize()));
+        List<mahasiswa> mahasiswa=page.get().collect(Collectors.toList());
+     //   List<mahasiswa> mahasiswa=page.get().collect(Collectors.toList());
+        List<mahasiswaResponse> list=mahasiswa.stream().map(this::convertMahasiswaToMahasiswaResponse).collect(Collectors.toList());
+        return  list;
+    }
+
+    @Override
+    public void deleteAll(int umur) throws NotFoundException {
+       mahasiswaRepo.deleteAll();
+    }
+
     private mahasiswa findMahasiswaByIdOrNotFoundException(String id) throws NotFoundException {
         Optional<mahasiswa> mahasiswa=mahasiswaRepo.findById(id);
         if(!mahasiswa.isPresent()){
@@ -78,6 +97,7 @@ public class mahasiswaServiceImpl implements mahasiswaService {
         }
 
     }
+
 
 
     private mahasiswaResponse convertMahasiswaToMahasiswaResponse(mahasiswa mahasiswa){
